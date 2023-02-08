@@ -1,0 +1,58 @@
+
+
+77. Viết base address C macros
+
+84. Viết định nghĩa Struct của từng peripherals
+
+85. Viết macro enable và disable clock của peripherals ( RCC_ADD)
+
+88. Taọ file gpio.c và gpio.h trong folder driver 
+
+//TRong file stm32.h
+B1: Viết baseAddress BUS
+B2: Biết baseAddress peripheral trên BUS
+B3: Viết Struct thanh ghi peripheral
+B4: Viết macro enable và disable clock của peripherals ( RCC_ADD)
+
+
+// Viết driver GPIO
+// Taọ file gpio.c và gpio.h trong folder driver 
+B1: Tạo struct GPIO_Handle_T chứa 
+	+ Base Address (Khi làm việc với ngoại vi thì điều đầu tiên là BaseAddress)
+    + GPIO_PinConfig (Chứa cấu hình cài đặt của GPIO Pin)
+B2: Vậy thì GPIO_PinConfig chứa gì:
+	+ GPIO Port name  // Port là baseaddress có r nên k tạo ở đây nữa)
+	+ GPIO Pin name
+	+ GPIO mode (input, output, adc, alternate...)
+	+ GPIO speed
+	+ GPIO output type( pushpull hay opendrain)
+	+ GPIO Pullup Pulldown
+	+ GPIO Alternate function mode
+B3: Viêt hàm cho API GPIO
+   + GPIO initialization and deinit
+   + Enable/Disable GPIO port clock
+   + Read from GPIO Pin, port
+   + Write to GPIO Pin, port
+   + Config Alternate Function
+   + Interrupt Handling IRQ //
+B4: Xác định các tham số truyền vào hàm và trả về
+B5: Viết macro cho các giá trị của thanh ghi ở bước 2 laf GPIO_PinConfig 
+ VD: Thanh ghi GPIOMode
+  #define	GPIO_MODE_IN 		0
+  #define	GPIO_MODE_OUT 		1
+  #define	GPIO_MODE_ALTFN 	2
+  #define	GPIO_MODE_ANALOG 	3
+  #define 	GPIO_MODE_IN_RT     4  
+  #define 	GPIO_MODE_IN_FT     5
+  #define 	GPIO_MODE_IN_RFT    6
+  
+  // Một số IO không thể dùng
+  General-purpose I/O (GPIO)
+During and just after reset, the alternate functions are not active and the I/O ports are
+configured in input floating mode.
+The debug pins are in AF pull-up/pull-down after reset:
+• PA15: JTDI in pull-up
+• PA14: JTCK/SWCLK in pull-down
+• PA13: JTMS/SWDAT in pull-up
+• PB4: NJTRST in pull-up
+• PB3: JTDO in floating state

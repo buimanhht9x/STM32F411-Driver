@@ -1,0 +1,59 @@
+Ctrl + O : mở các hàm, các biến global
+
+35. Clock sources of MCU
+  1. Crystal oscillator   (External to the MCU)  HSE
+	(Thach Anh 8MHz, hoặc clock từ các nguồn khác vào chân OSC_IN, clock từ stlink chẳng hạn)
+  2. RC oscillator         (Internal to the MCU) HSI
+	Khi khởi động, MCU sẽ lấy clock mặc định là HSI, cần cấu hình để sử dụng được HSE
+  3. PLL (Phase Locked Loop)
+    Boost HSE or HSI to higher frequence
+37. Peripheral Clock Configuration.
+  In modern MCUs, before using any peripheral, u must enable its peripheral clock using peripheral registers
+  By default, peripheral clocks of all most all peripherals will be disabled to save power
+  A peripheral won't take or respond to your configuration vluse until you enable its peripheral clock.
+  In stm32 , peripheral clocks are managed through RCC registers
+  
+  42. Vector table
+  - table of pointers or addresses
+  - Có 15 ngắt hệ thống và 75 ngắt ngoài
+  - Khi có ngắt, CPU sẽ nhảy đến địa chỉ ngắt, từ địa chỉ đấy sẽ nhảy đến địa chỉ của hàm ngắt
+  Ví dụ EXTI0 có vector ngắt 0x00000058, hàm xử lí ngắt trong code có địa chỉ 0x0800264
+  Thì ta có vector ngắt 0x00000058 chứa địa chỉ 0x0800264, Khi có ngắt xảy ra, CPU sẽ load địa chỉ vào
+  Program Counter, và PC sẽ nhảy đến hàm ngắt để xử lí ngắt
+  Vector Table được lưu vào file startup code
+  
+  Một số ngoại vi chuyển ngắt đến NVIC qua EXTI
+  Một số thì chuyển ngắt trực tiếp đến NVIC
+  
+  Button interrupt:
+  
+  1. Cấu hình GPIO Pin là input
+  2. Cấu hình GPIO Port và EXTI Line qua thanh ghi SYSCFG_EXTICRx.
+  3. Cấu hình Trigger Detection (falling/ rising/ both) cho EXTI qua thanh ghi EXTI Controller.
+  4. Viết handler cho ngắt.
+  
+  
+  Khi mà I/O Pin được cấu hình Input Mode
+  1. Output Buffer sẽ tắt
+  2. the Schmitt trigger input sẽ đc kích hoạt
+  3. Trở pullup or pulldown sẽ được kích hoạt dựa trên giá trị thanh ghi GPIOx_PUPDR( mặc định chưa PU or PD)
+  4. Data trên I/O Pin sẽ được lấy mẫu vào thanh ghi vào input data register mỗi AHB1 clock cycle.
+  
+  Bus     AHBx
+          APBx
+		  Bus chứa các peripherals
+
+Header file chứa gì:
+1. Base Addresses của bộ nhớ ( Flash, SRAM1, SRAM2, ROM,...)
+2. Base Addresses của bus domains ( APBx, AHBx)
+3. Base Addresses peripherals của các bus domains.
+4. Các macros quản lí clock (clock enable and clock disable macros)
+5. IRQ definitions
+6. Các Structures định nghĩa thanh ghi peripheral
+7. Định nghĩa bit thanh ghi peripheral
+8. Một số macros định nghĩa cần thiết khác.
+
+
+
+
+  
