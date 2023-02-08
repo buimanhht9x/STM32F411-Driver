@@ -56,3 +56,19 @@ The debug pins are in AF pull-up/pull-down after reset:
 • PA13: JTMS/SWDAT in pull-up
 • PB4: NJTRST in pull-up
 • PB3: JTDO in floating state
+
+
+//////////////
+Interrupt mode
+
+GPIO Pin Interrupt Configuration
+1. Cấu hình pin Input mode 
+2. Cấu hình edge trigger RT, FT , RFT // EXTI
+2.1. Cấu hình port trên EXT đó bằng thanh ghi SYSCFG_EXTICR, có 4 thanh ghi từ 1 đến 4 
+3. Enable interrupt delivery từ peripheral đến procsessor ( on peripheral side) // Interrupt mask register (EXTI_IMR)
+4. Xác định IRQ number nào trên processor accepts ngắt từ pin đó  // define macro
+5. Cấu hình IRQ priority cho IRQ number đã đc định nghĩa (processor side) // NVIC Register
+6. Cho phép nhận Interrupt trên IRQ number đó
+7. Thực thi hàm IRQ handler.
+
+

@@ -16,7 +16,7 @@ C_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 drivers/Src/%.o drivers/Src/%.su: ../drivers/Src/%.c drivers/Src/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F411VEHx -DSTM32F4 -c -I../Inc -I"D:/Manh/stm32_advance/Udemy/stm32f4xx_driver_2/drivers/Inc" -I"D:/Manh/stm32_advance/Udemy/stm32f4xx_driver_2/drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F411VEHx -DSTM32F4 -c -I../Inc -I"F:/C n STM/STM_Udemy/STM32F411-Driver/stm32f4xx_driver_2/drivers/Inc" -I"F:/C n STM/STM_Udemy/STM32F411-Driver/stm32f4xx_driver_2/drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
 clean: clean-drivers-2f-Src
 

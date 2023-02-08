@@ -37,9 +37,9 @@ int main()
 			delay();
 			GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_14);
 		}
-
-
 	}
 	return 0;
 }
+
+
 
