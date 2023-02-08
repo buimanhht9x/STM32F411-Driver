@@ -67,7 +67,8 @@
 #define GPIOD_BASEADDR		(AHB1_BASEADDR + 0x0C00)
 #define GPIOE_BASEADDR		(AHB1_BASEADDR + 0x1000)
 #define GPIOH_BASEADDR		(AHB1_BASEADDR + 0x1C00)
-#define RCC_BASEADDR		(AHB1_BASEADDR + 0x3000)
+#define CRC_BASEADDR		(AHB1_BASEADDR + 0x3000)
+#define RCC_BASEADDR		(AHB1_BASEADDR + 0x3800)
 #define FIR_BASEADDR		(AHB1_BASEADDR + 0x3C00)
 #define DMA1_BASEADDR		(AHB1_BASEADDR + 0x6000)
 #define DMA2_BASEADDR		(AHB1_BASEADDR + 0x6400)
@@ -101,34 +102,35 @@ typedef struct {
 // RCC structure để enable hoặc disable peripheral clock
 
 typedef struct{
-	__vo uint32_t	CR;
-	__vo uint32_t	PLLCFGR;
-	__vo uint32_t	CFGR;
-	__vo uint32_t	CIR;
-	__vo uint32_t	AHB1RSTR;
-	__vo uint32_t	AHB2RSTR;
-	__vo uint32_t	Reserved1[2];
-	__vo uint32_t	APB1RSTR;
-	__vo uint32_t	APB2RSTR;
-	__vo uint32_t	Reserved2[2];
-	__vo uint32_t	AHB1ENR;
-	__vo uint32_t	AHB2ENR;
-	__vo uint32_t	Reserved3[2];
-	__vo uint32_t	APB1ENR;
-	__vo uint32_t	APB2ENR;
-	__vo uint32_t	Reserved4[2];
-	__vo uint32_t	AHB1LPENR;
-	__vo uint32_t	AHB2LPENR;
-	__vo uint32_t	Reserved5[2];
-	__vo uint32_t	APB1LPENR;
-	__vo uint32_t	APB2LPENR;
-	__vo uint32_t	Reserved6[2];
-	__vo uint32_t	BDCR;
-	__vo uint32_t	CSR;
-	__vo uint32_t	Reserved7[2];
-	__vo uint32_t	SSCGR;
-	__vo uint32_t	PLLI2SCFGR;
-	__vo uint32_t	DCKCFGR;
+	__vo uint32_t	CR;					// 0x00
+	__vo uint32_t	PLLCFGR;			// 0x04
+	__vo uint32_t	CFGR;				// 0x08
+	__vo uint32_t	CIR;				// 0x0C
+	__vo uint32_t	AHB1RSTR;			// 0x10
+	__vo uint32_t	AHB2RSTR;			// 0x14
+	__vo uint32_t	Reserved1[2];		// 0x18, 0x1C
+	__vo uint32_t	APB1RSTR;			// 0x20
+	__vo uint32_t	APB2RSTR;			// 0x24
+	__vo uint32_t	Reserved2[2];		// 0x28, 0x2C
+	__vo uint32_t	AHB1ENR;			// 0x30
+	__vo uint32_t	AHB2ENR;			// 0x34
+	__vo uint32_t	Reserved3[2];		// 0x38, 0x3C
+	__vo uint32_t	APB1ENR;			// 0x40
+	__vo uint32_t	APB2ENR;			// 0x44
+	__vo uint32_t	Reserved4[2];		// 0x48, 0x4C
+	__vo uint32_t	AHB1LPENR;			// 0x50
+	__vo uint32_t	AHB2LPENR;			// 0x54
+	__vo uint32_t	Reserved5[2];		// 0x58, 0x5C
+	__vo uint32_t	APB1LPENR;			// 0x60
+	__vo uint32_t	APB2LPENR;			// 0x64
+	__vo uint32_t	Reserved6[2];		// 0x68, 0x6C
+	__vo uint32_t	BDCR;				// 0x70
+	__vo uint32_t	CSR;				// 0x74
+	__vo uint32_t	Reserved7[2];		// 0x78, 0x7C
+	__vo uint32_t	SSCGR;				// 0x80
+	__vo uint32_t	PLLI2SCFGR;			// 0x84
+	__vo uint32_t	Reserved8;			// 0x88
+	__vo uint32_t	DCKCFGR;			// 0x8C
 }RCC_RegDef_t;
 
 #define RCC		((RCC_RegDef_t *)RCC_BASEADDR)

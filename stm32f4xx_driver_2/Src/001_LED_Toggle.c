@@ -3,6 +3,8 @@
 void delay()
 {
 	for(uint32_t i=0 ; i < 50000;i++);
+	for(uint32_t i=0 ; i < 50000;i++);
+	for(uint32_t i=0 ; i < 50000;i++);
 }
 
 int main()

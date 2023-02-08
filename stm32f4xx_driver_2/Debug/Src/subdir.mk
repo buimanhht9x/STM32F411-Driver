@@ -5,23 +5,23 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/001_LED_Toggle.c 
+../Src/002_Button.c 
 
 OBJS += \
-./Src/001_LED_Toggle.o 
+./Src/002_Button.o 
 
 C_DEPS += \
-./Src/001_LED_Toggle.d 
+./Src/002_Button.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 Src/%.o Src/%.su: ../Src/%.c Src/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F411VEHx -DSTM32F4 -c -I../Inc -I"D:/Manh/stm32_advance/Udemy/stm32f4xx_driver_2/drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F411VEHx -DSTM32F4 -c -I../Inc -I"D:/Manh/stm32_advance/Udemy/stm32f4xx_driver_2/drivers/Inc" -I"D:/Manh/stm32_advance/Udemy/stm32f4xx_driver_2/drivers/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/001_LED_Toggle.d ./Src/001_LED_Toggle.o ./Src/001_LED_Toggle.su
+	-$(RM) ./Src/002_Button.d ./Src/002_Button.o ./Src/002_Button.su
 
 .PHONY: clean-Src
 

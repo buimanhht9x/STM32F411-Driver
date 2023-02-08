@@ -1,3 +1,3 @@
-"./Src/001_LED_Toggle.o"
+"./Src/002_Button.o"
 "./Startup/startup_stm32f411vehx.o"
 "./drivers/Src/stm32f411xx_gpio_driver.o"
