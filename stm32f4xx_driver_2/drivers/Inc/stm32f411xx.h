@@ -92,6 +92,13 @@ typedef struct {
 	__vo uint32_t	AFR[2];			/*	GPIO alternate function register  [0] 0-7  [1] 8-15			*/
 }GPIO_RegDef_t;
 
+
+/*
+ * Cách khai báo chuẩn
+ * GPIO_RegDef_t *pGPIOA = (GPIO_RegDef_t *) GPIOA_BASEADDR
+ */
+
+
 #define GPIOA 	(GPIO_RegDef_t *)GPIOA_BASEADDR
 #define GPIOB 	(GPIO_RegDef_t *)GPIOB_BASEADDR
 #define GPIOC 	(GPIO_RegDef_t *)GPIOC_BASEADDR
@@ -134,6 +141,42 @@ typedef struct{
 }RCC_RegDef_t;
 
 #define RCC		((RCC_RegDef_t *)RCC_BASEADDR)
+
+
+// EXTI structure
+
+typedef struct
+{
+	__vo uint32_t IMR;		// Interrupt mask register (EXTI_IMR)  				0x00
+	__vo uint32_t EMR;		// Event mask register (EXTI_EMR)					0x04
+	__vo uint32_t RTSR;		// Rising trigger selection register (EXTI_RTSR)    0x08
+	__vo uint32_t FTSR;		// Falling trigger selection register (EXTI_FTSR)   0x0C
+	__vo uint32_t SWIER; 	// Software interrupt event register (EXTI_SWIER)   0x10
+	__vo uint32_t PR;		// Pending register (EXTI_PR)						0x14
+
+}EXTI_Regdef_t;
+
+#define EXTI	((EXTI_Regdef_t *)EXTI_BASEADDR)
+
+// Định nghĩa IRQ number cho EXTI
+#define EXTI_NO_0			6
+#define EXTI_NO_1			7
+#define EXTI_NO_2			8
+#define EXTI_NO_3			9
+#define EXTI_NO_4			10
+#define EXTI_NO_9_5			23
+#define EXTI_NO_15_10		40
+
+// SYSCONFIG structure
+typedef struct
+{
+	__vo uint32_t MEMRMP;
+	__vo uint32_t PMC;
+	__vo uint32_t EXTICR[4];
+	__vo uint32_t CMPCR;
+}SYSCFG_RegDef_t;
+
+#define SYSCFG   ((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)
 
 // Viết macro enable và disable clock của peripherals
 
@@ -221,6 +264,18 @@ typedef struct{
 #define GPIOE_REG_RESET()   			do{ (RCC->AHB1RSTR |= (1 << 4));	(RCC->AHB1RSTR &= ~(1<<4)); }while(0)
 #define GPIOH_REG_RESET()   			do{ (RCC->AHB1RSTR |= (1 << 7));	(RCC->AHB1RSTR &= ~(1<<7)); }while(0)
 // Some MacroName
+
+
+
+// PortCode cho GPIO
+
+#define GPIO_PORTCODE(x)    ((x == GPIOA) ? 0 : \
+							(x == GPIOB) ? 1 : \
+							(x == GPIOC) ? 2 : \
+							(x == GPIOD) ? 3 : \
+							(x == GPIOE) ? 4 : \
+							(x == GPIOH) ? 7 : 0)
+
 
 #define SET 			1
 #define RESET 			0

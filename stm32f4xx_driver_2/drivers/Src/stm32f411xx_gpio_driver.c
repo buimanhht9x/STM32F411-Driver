@@ -71,7 +71,33 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 	}
 	else
 	{
-		// Interrupt mode
+		//1. Cấu hình RT, FT trong EXTI
+		if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IN_FT)
+		{
+			EXTI->FTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR &= ~(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IN_RT)
+		{
+			EXTI->FTSR &= ~(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IN_RFT)
+		{
+			EXTI->FTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+
+		//2. Cấu hình port tương ứng đã chọn trong SYSCFG_EXTICR, mặc định là portA
+		// đầu tiên phải xem Pin đó ứng với EXTICR nào, sau đó xem nó vào ô nào trong EXTICR đó
+
+		uint8_t temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 4;
+		uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 4;
+		uint8_t portCode = GPIO_PORTCODE(pGPIOHandle->pGPIOx);
+		SYSCFG->EXTICR[temp1] |= portCode << (4 * temp2);
+
+		//3. Enable interrupt trong thanh ghi Interrupt mask register (EXTI_IMR)
+		EXTI->IMR |= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
 	}
 
 	temp = 0;
