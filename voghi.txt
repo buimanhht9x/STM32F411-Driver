@@ -31,7 +31,7 @@ Ctrl + O : mở các hàm, các biến global
   2. Cấu hình GPIO Port và EXTI Line qua thanh ghi SYSCFG_EXTICRx.
   3. Cấu hình Trigger Detection (falling/ rising/ both) cho EXTI qua thanh ghi EXTI Controller.
   4. Viết handler cho ngắt.
-  
+  tt
   
   Khi mà I/O Pin được cấu hình Input Mode
   1. Output Buffer sẽ tắt
