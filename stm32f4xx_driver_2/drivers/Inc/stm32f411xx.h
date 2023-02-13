@@ -277,6 +277,46 @@ typedef struct
 							(x == GPIOH) ? 7 : 0)
 
 
+// Macro IRQ number
+
+#define  IRQ_NO_EXTI0			6
+#define  IRQ_NO_EXTI1			7
+#define  IRQ_NO_EXTI2			8
+#define  IRQ_NO_EXTI3			9
+#define  IRQ_NO_EXTI4			10
+#define  IRQ_NO_EXTI9_5			23
+#define  IRQ_NO_EXTI15_10		40
+
+// Macro for NVIC register
+// NVIC_ISER0 - NVIC_ISER7  Interrupt Set-Enable Registers
+// Cấu trúc của NVIC_ISER0, 32 bit, lưu giá trị IRQ 0 đến 31
+// Cấu trúc của NVIC_ISER1, 32 bit, lưu giá trị IRQ 32 đến 61
+#define NVIC_ISER0_BASEADDR				(__vo uint32_t *)0xE000E100
+#define NVIC_ISER1_BASEADDR				(__vo uint32_t *)0xE000E104
+#define NVIC_ISER2_BASEADDR				(__vo uint32_t *)0xE000E108
+#define NVIC_ISER3_BASEADDR				(__vo uint32_t *)0xE000E10C
+#define NVIC_ISER4_BASEADDR				(__vo uint32_t *)0xE000E110
+#define NVIC_ISER5_BASEADDR				(__vo uint32_t *)0xE000E114
+#define NVIC_ISER6_BASEADDR				(__vo uint32_t *)0xE000E118
+#define NVIC_ISER7_BASEADDR				(__vo uint32_t *)0xE000E11C
+
+// NVIC_ICER0 - NVIC_ICER7  Interrupt Clear-Enable Registers
+#define NVIC_ICER0_BASEADDR				(__vo uint32_t *)0xE000E180
+#define NVIC_ICER1_BASEADDR				(__vo uint32_t *)0xE000E184
+#define NVIC_ICER2_BASEADDR				(__vo uint32_t *)0xE000E188
+#define NVIC_ICER3_BASEADDR				(__vo uint32_t *)0xE000E18C
+#define NVIC_ICER4_BASEADDR				(__vo uint32_t *)0xE000E190
+#define NVIC_ICER5_BASEADDR				(__vo uint32_t *)0xE000E194
+#define NVIC_ICER6_BASEADDR				(__vo uint32_t *)0xE000E198
+#define NVIC_ICER7_BASEADDR				(__vo uint32_t *)0xE000E19C
+
+// NVIC_IPR0 - NVIC_IPR59	Interrupt Priority Register
+
+#define NVIC_IPR_BASEADDR				(__vo uint32_t *)0xE000E400
+
+
+
+// Define some common macros
 #define SET 			1
 #define RESET 			0
 #define ENABLE			1

@@ -220,10 +220,50 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
  */
 void GPIO_IRQConfigNumber(uint8_t IRQNumber, uint8_t EnorDi)
 {
+	if(EnorDi == 0)
+	{
+		if(IRQNumber <32)
+		{
+			*NVIC_ISER0_BASEADDR |= 1 << IRQNumber;
+		}
+		else if(IRQNumber <64 && IRQNumber>=32)
+		{
+			*NVIC_ISER1_BASEADDR |= 1 << (IRQNumber%32);
+		}
+		else if(IRQNumber < 96 && IRQNumber >=64)
+		{
+			*NVIC_ISER1_BASEADDR |= 1 << (IRQNumber%64);
+		}
+	}
+	else
+	{
+
+		if(IRQNumber <32)
+		{
+			*NVIC_ICER0_BASEADDR |= 1 << IRQNumber;
+		}
+		else if(IRQNumber <64 && IRQNumber>=32)
+		{
+			*NVIC_ICER1_BASEADDR |= 1 << (IRQNumber%32);
+		}
+		else if(IRQNumber < 96 && IRQNumber >=64)
+		{
+			*NVIC_ICER1_BASEADDR |= 1 << (IRQNumber%64);
+		}
+	}
 
 }
-void GPIO_IRQConfigPriority(uint8_t IRQPriority)
+void GPIO_IRQConfigPriority(uint8_t IRQNumber, uint8_t IRQPriority)
 {
+	uint8_t iprReg = IRQNumber / 4;
+	uint8_t iprSec = IRQNumber % 4;
+	// mỗi thanh ghi 32 bit
+	// mỗi giá trị lưu 0-7 8-16 ...=> iprSec * 8
+	// NVIC_IPR0_BASEADDR   0xE000E400
+	// NVIC_IPR1_BASEADDR   0xE000E404
+	// Vì vậy cần iprReg*4
+
+	*(NVIC_IPR_BASEADDR + iprReg*4) |= IRQPriority << (iprSec * 8) ;
 
 }
 void GPIO_IRQHandling(uint8_t PinNumber)
