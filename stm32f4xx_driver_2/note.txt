@@ -71,4 +71,6 @@ GPIO Pin Interrupt Configuration
 6. Cho phép nhận Interrupt trên IRQ number đó
 7. Thực thi hàm IRQ handler.
 
-
+Sự khác nhau giữa IMR và EMR
++ IMR là ngắt hardware
++ EMR là ngất software

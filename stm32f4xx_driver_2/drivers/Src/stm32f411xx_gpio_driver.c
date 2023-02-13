@@ -74,18 +74,18 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 		//1. Cấu hình RT, FT trong EXTI
 		if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IN_FT)
 		{
-			EXTI->FTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-			EXTI->RTSR &= ~(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->FTSR |=  (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR &= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 		}
 		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IN_RT)
 		{
-			EXTI->FTSR &= ~(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-			EXTI->RTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->FTSR &= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR |=  (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 		}
 		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IN_RFT)
 		{
-			EXTI->FTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-			EXTI->RTSR |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->FTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 		}
 
 		//2. Cấu hình port tương ứng đã chọn trong SYSCFG_EXTICR, mặc định là portA
@@ -94,10 +94,13 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 		uint8_t temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 4;
 		uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 4;
 		uint8_t portCode = GPIO_PORTCODE(pGPIOHandle->pGPIOx);
+		// Enable SYS Clock
+		SYSCFG_PCLK_EN();
+		// Chon PORT cho EXTI line
 		SYSCFG->EXTICR[temp1] |= portCode << (4 * temp2);
 
 		//3. Enable interrupt trong thanh ghi Interrupt mask register (EXTI_IMR)
-		EXTI->IMR |= pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
+		EXTI->IMR |= 1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
 	}
 
 	temp = 0;
@@ -220,7 +223,7 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
  */
 void GPIO_IRQConfigNumber(uint8_t IRQNumber, uint8_t EnorDi)
 {
-	if(EnorDi == 0)
+	if(EnorDi == 1)
 	{
 		if(IRQNumber <32)
 		{
@@ -232,7 +235,7 @@ void GPIO_IRQConfigNumber(uint8_t IRQNumber, uint8_t EnorDi)
 		}
 		else if(IRQNumber < 96 && IRQNumber >=64)
 		{
-			*NVIC_ISER1_BASEADDR |= 1 << (IRQNumber%64);
+			*NVIC_ISER2_BASEADDR |= 1 << (IRQNumber%64);
 		}
 	}
 	else
@@ -248,7 +251,7 @@ void GPIO_IRQConfigNumber(uint8_t IRQNumber, uint8_t EnorDi)
 		}
 		else if(IRQNumber < 96 && IRQNumber >=64)
 		{
-			*NVIC_ICER1_BASEADDR |= 1 << (IRQNumber%64);
+			*NVIC_ICER2_BASEADDR |= 1 << (IRQNumber%64);
 		}
 	}
 
@@ -262,13 +265,18 @@ void GPIO_IRQConfigPriority(uint8_t IRQNumber, uint8_t IRQPriority)
 	// NVIC_IPR0_BASEADDR   0xE000E400
 	// NVIC_IPR1_BASEADDR   0xE000E404
 	// Vì vậy cần iprReg*4
+	uint8_t shift_amount = (iprSec * 8) + (8 - NO_PR_BITS_IMPLEMENTED);
 
-	*(NVIC_IPR_BASEADDR + iprReg*4) |= IRQPriority << (iprSec * 8) ;
+	*(NVIC_IPR_BASEADDR + iprReg) |= IRQPriority << shift_amount ;
 
 }
 void GPIO_IRQHandling(uint8_t PinNumber)
 {
-
+	if(EXTI->PR & (1 << PinNumber))
+	{
+		// Clear bit theo RM, clear la ghi 1
+		EXTI->PR |= 1 << PinNumber;
+	}
 }
 
 
